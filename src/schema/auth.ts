@@ -1,7 +1,7 @@
+import { Role } from "@prisma/client";
 import z from "zod";
 
 // import { imageMaxSize, imageTypes } from "@/utils/constants";
-import { Role } from "@prisma/client";
 
 export const signUpSchema = z
   .object({

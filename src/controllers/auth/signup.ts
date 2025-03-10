@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 // import fs from "fs";
 import jwt from "jsonwebtoken";
-import { Role } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 // import path from "path";
 
 import { createUser, findUser } from "@/database/query/user";
@@ -9,13 +9,9 @@ import { hash } from "@/lib/hash";
 import { generateNanoId } from "@/lib/nanoid";
 // import { imageFolder } from "@/utils/constants";
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUpController = async (req: Request, res: Response) => {
   try {
-    const {
-      username,
-      password,
-      role,
-    }: { username: string; password: string; role?: Role } = req.body;
+    const { username, password, role }: Prisma.UserCreateInput = req.body;
 
     // if (!req.files || !Array.isArray(req.files)) {
     //   res.status(400).json({ message: "Bad request!", data: null });

@@ -1,9 +1,9 @@
 import express from "express";
 // import multer from "multer";
 
-import { signIn } from "@/controllers/auth/signin";
-import { signOut } from "@/controllers/auth/signout";
-import { signUp } from "@/controllers/auth/signup";
+import { signInController } from "@/controllers/auth/signin";
+import { signOutController } from "@/controllers/auth/signout";
+import { signUpController } from "@/controllers/auth/signup";
 import { auth } from "@/middleware/auth";
 import { validateRequest } from "@/middleware/validation";
 import { signInSchema, signUpSchema } from "@/schema/auth";
@@ -17,9 +17,9 @@ r.post(
     signUpSchema
     // , true
   ),
-  signUp
+  signUpController
 );
-r.post("/signin", validateRequest(signInSchema), signIn);
-r.post("/signout", auth("private"), signOut);
+r.post("/signin", validateRequest(signInSchema), signInController);
+r.post("/signout", auth("private"), signOutController);
 
 export default r;

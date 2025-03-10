@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-export const signOut = async (_: Request, res: Response) => {
+export const signOutController = async (_: Request, res: Response) => {
   try {
     res
       .status(200)

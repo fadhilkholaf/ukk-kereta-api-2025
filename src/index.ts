@@ -2,12 +2,12 @@ import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 
 import authRoute from "@/routes/auth";
-import userRoute from "@/routes/user";
+import keretaRoute from "@/routes/kereta";
 
 import "dotenv/config";
 
-const r = express();
 const PORT = process.env.PORT || 8080;
+const r = express();
 
 r.use(express.json());
 r.use(express.urlencoded({ extended: true }));
@@ -18,7 +18,7 @@ r.get("/", (_: Request, res: Response) => {
 });
 
 r.use("/auth", authRoute);
-r.use("/user", userRoute);
+r.use("/kereta", keretaRoute);
 
 r.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { sign } from "jsonwebtoken";
+import { Prisma } from "@prisma/client";
 
 import { findUser } from "@/database/query/user";
 import { compareHash } from "@/lib/hash";
 
-export const signIn = async (req: Request, res: Response) => {
+export const signInController = async (req: Request, res: Response) => {
   try {
-    const { username, password }: { username: string; password: string } =
-      req.body;
+    const { username, password }: Prisma.UserCreateInput = req.body;
 
     const existingUser = await findUser({ username });
 
