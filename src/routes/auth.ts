@@ -1,17 +1,25 @@
 import express from "express";
+// import multer from "multer";
 
-import { signUp } from "@/controllers/auth";
+import { signIn } from "@/controllers/auth/signin";
+import { signOut } from "@/controllers/auth/signout";
+import { signUp } from "@/controllers/auth/signup";
+import { auth } from "@/middleware/auth";
 import { validateRequest } from "@/middleware/validation";
-import { signUpSchema } from "@/schema/auth";
-import { upload } from "@/lib/multer";
+import { signInSchema, signUpSchema } from "@/schema/auth";
 
 const r = express();
 
 r.post(
   "/signup",
-  upload.single("photo"),
-  validateRequest(signUpSchema),
+  //   multer().any(),
+  validateRequest(
+    signUpSchema
+    // , true
+  ),
   signUp
 );
+r.post("/signin", validateRequest(signInSchema), signIn);
+r.post("/signout", auth("private"), signOut);
 
 export default r;

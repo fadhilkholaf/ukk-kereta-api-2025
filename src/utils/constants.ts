@@ -1,7 +1,11 @@
-export const MAX_FILE_SIZE = 1 * 1024 * 1024;
-export const ACCEPTED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-];
+// export const imageTypes = [
+//   "apng",
+//   "avif",
+//   "gif",
+//   "jpeg",
+//   "png",
+//   "svg+xml",
+//   "webp",
+// ];
+// export const imageMaxSize = 1 * 1024 * 1024;
+// export const imageFolder = `${process.cwd()}/src/database/images`;

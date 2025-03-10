@@ -1,10 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import z, { ZodError } from "zod";
 
-export const validateRequest = (schema: z.ZodObject<any, any>) => {
+export const validateRequest = (
+  schema: z.ZodObject<any, any>
+  // formData?: boolean
+) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse({ ...req.body, files: req.files });
+      // if (formData) {
+      //   schema.parse({ ...req.body, files: req.files });
+      // } else {
+      schema.parse({ ...req.body });
+      // }
       next();
     } catch (error) {
       if (error instanceof ZodError) {
@@ -14,14 +21,10 @@ export const validateRequest = (schema: z.ZodObject<any, any>) => {
             paths: e.path.join(", "),
             message: e.message,
           })),
-          debug: req.files,
         });
       } else {
-        res
-          .status(500)
-          .json({ messages: "Something went wrong!", data: req.files });
+        res.status(500).json({ messages: "Something went wrong!", data: null });
       }
     }
-    return;
   };
 };

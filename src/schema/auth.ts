@@ -1,16 +1,29 @@
 import z from "zod";
 
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/utils/constants";
-
-const fileSchema = z.object({
-  type: z.string(),
-  size: z.number(),
-});
+// import { imageMaxSize, imageTypes } from "@/utils/constants";
+import { Role } from "@prisma/client";
 
 export const signUpSchema = z
   .object({
     username: z.string().min(1),
     password: z.string().min(1),
-    files: z.array(z.unknown()).length(1),
+    role: z.nativeEnum(Role),
+    // files: z
+    //   .array(
+    //     z.object({
+    //       mimetype: z
+    //         .string()
+    //         .refine((type) => imageTypes.includes(type.split("/")[1])),
+    //       size: z.number().min(1).max(imageMaxSize, "Max 1MB file size!"),
+    //     })
+    //   )
+    //   .length(1),
+  })
+  .strict();
+
+export const signInSchema = z
+  .object({
+    username: z.string().min(1),
+    password: z.string().min(1),
   })
   .strict();
