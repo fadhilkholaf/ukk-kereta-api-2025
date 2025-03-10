@@ -4,9 +4,9 @@
     "transpileOnly": true
   },
   "compilerOptions": {
-    "target": "es2016",
+    "target": "ESNext",
     "module": "NodeNext",
-    "outDir": "dist",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

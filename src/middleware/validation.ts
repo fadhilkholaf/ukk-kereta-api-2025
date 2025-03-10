@@ -1,20 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import z, { ZodError } from "zod";
+import z from "zod";
 
-export const validateRequest = (
-  schema: z.ZodObject<any, any>
-  // formData?: boolean
-) => {
+export const validate = (schema: z.ZodObject<any, any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      // if (formData) {
-      //   schema.parse({ ...req.body, files: req.files });
-      // } else {
       schema.parse({ ...req.body });
-      // }
       next();
     } catch (error) {
-      if (error instanceof ZodError) {
+      console.log(error);
+
+      if (error instanceof z.ZodError) {
         res.status(400).json({
           messages: "Bad request!",
           data: error.issues.map((e) => ({

@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import jwt, { JsonWebTokenError } from "jsonwebtoken";
+import { JsonWebTokenError, verify } from "jsonwebtoken";
 
-import { AuthRole, AuthToken } from "@/types/auth";
+import { findUserQuery } from "@/database/query/user";
+import { AuthAccess, AuthToken } from "@/types/auth";
 
 export const auth =
-  (access: AuthRole) =>
+  (access: AuthAccess) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { token } = req.cookies;
@@ -17,17 +18,27 @@ export const auth =
         return;
       }
 
-      const verifiedToken = jwt.verify(
+      const verifiedToken = verify(
         token,
         process.env.SECRET_KEY || "yanggelapkaubukanindonesia"
       ) as unknown as AuthToken;
 
-      if (verifiedToken && access === "private") {
+      const existingUser = await findUserQuery({ id: verifiedToken.id });
+
+      if (!existingUser) {
+        res.status(401).json({
+          message: "Unauthorized!",
+          data: null,
+        });
+        return;
+      }
+
+      if (access === "private") {
         next();
         return;
       }
 
-      if (verifiedToken.role !== access) {
+      if (existingUser.role !== access) {
         res.status(401).json({
           message: "Unauthorized!",
           data: null,
@@ -37,6 +48,8 @@ export const auth =
 
       next();
     } catch (error) {
+      console.log(error);
+
       if (error instanceof JsonWebTokenError) {
         res.status(401).json({
           message: "Unauthorized!",
