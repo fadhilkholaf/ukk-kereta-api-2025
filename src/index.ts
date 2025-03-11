@@ -6,6 +6,7 @@ import keretaRoute from "@/routes/kereta";
 import userRoute from "@/routes/user";
 import gerbongRoute from "@/routes/gerbong";
 import kursiRoute from "@/routes/kursi";
+import jadwalRoute from "@/routes/jadwal";
 
 import "dotenv/config";
 
@@ -27,6 +28,7 @@ r.use("/kereta", keretaRoute);
 r.use("/user", userRoute);
 r.use("/gerbong", gerbongRoute);
 r.use("/kursi", kursiRoute);
+r.use("/jadwal", jadwalRoute);
 
 r.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
