@@ -48,14 +48,14 @@ export const auth =
 
       next();
     } catch (error) {
-      console.log(error);
-
       if (error instanceof JsonWebTokenError) {
         res.status(401).json({
           message: "Unauthorized!",
           data: null,
         });
       } else {
+        console.log(error);
+
         res.status(500).json({
           message: "Something went wrong!",
           data: null,

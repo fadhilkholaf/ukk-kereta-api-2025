@@ -54,17 +54,10 @@ export const signInController = async (req: Request, res: Response) => {
 
     const existingUser = await findUserQuery({ username });
 
-    if (!existingUser) {
-      res.status(404).json({
-        message: "Incorrect username or password!",
-        data: null,
-      });
-      return;
-    }
-
-    const isCorrectPassword = compareHash(password, existingUser.password);
-
-    if (!isCorrectPassword) {
+    if (
+      !existingUser ||
+      (existingUser && !compareHash(password, existingUser.password))
+    ) {
       res.status(404).json({
         message: "Incorrect username or password!",
         data: null,

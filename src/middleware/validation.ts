@@ -7,8 +7,6 @@ export const validate = (schema: z.ZodObject<any, any>) => {
       schema.parse({ ...req.body });
       next();
     } catch (error) {
-      console.log(error);
-
       if (error instanceof z.ZodError) {
         res.status(400).json({
           messages: "Bad request!",
@@ -18,6 +16,8 @@ export const validate = (schema: z.ZodObject<any, any>) => {
           })),
         });
       } else {
+        console.log(error);
+
         res.status(500).json({ messages: "Something went wrong!", data: null });
       }
     }
