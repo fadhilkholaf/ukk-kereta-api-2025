@@ -20,7 +20,7 @@ export const auth =
 
       const verifiedToken = verify(
         token,
-        process.env.SECRET_KEY || "yanggelapkaubukanindonesia"
+        process.env.SECRET_KEY || "yanggelapkaubukanindonesia",
       ) as unknown as AuthToken;
 
       const existingUser = await findUserQuery({ id: verifiedToken.id });

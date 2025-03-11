@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { sign } from "jsonwebtoken";
-import { Prisma } from "@prisma/client";
 
 import { createUserQuery, findUserQuery } from "@/database/query/user";
 import { compareHash, hash } from "@/lib/hash";
@@ -8,7 +7,7 @@ import { generateNanoId } from "@/lib/nanoid";
 
 export const signUpController = async (req: Request, res: Response) => {
   try {
-    const { username, password, role }: Prisma.UserCreateInput = req.body;
+    const { username, password, role } = req.body;
 
     const existingUser = await findUserQuery({ username });
 
@@ -29,7 +28,7 @@ export const signUpController = async (req: Request, res: Response) => {
     const token = sign(
       { id: createdUser.id, username, role: createdUser.role },
       process.env.SECRET_KEY || "yanggelapkaubukanindonesia",
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     res
@@ -51,7 +50,7 @@ export const signUpController = async (req: Request, res: Response) => {
 
 export const signInController = async (req: Request, res: Response) => {
   try {
-    const { username, password }: Prisma.UserCreateInput = req.body;
+    const { username, password } = req.body;
 
     const existingUser = await findUserQuery({ username });
 
@@ -76,7 +75,7 @@ export const signInController = async (req: Request, res: Response) => {
     const token = sign(
       { id: existingUser.id, username, role: existingUser.role },
       process.env.SECRET_KEY || "yanggelapkaubukanindonesia",
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     res

@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
-import { Prisma } from "@prisma/client";
 
 import {
   createKeretaQuery,
   deleteKeretaQuery,
   findKeretaQuery,
+  findManyKeretaQuery,
   updateKeretaQuery,
 } from "@/database/query/kereta";
 import { generateNanoId } from "@/lib/nanoid";
 
 export const createKeretaController = async (req: Request, res: Response) => {
   try {
-    const { namaKereta, deskripsi, kelas }: Prisma.KeretaCreateInput = req.body;
+    const { namaKereta, deskripsi, kelas } = req.body;
 
     const createdKereta = await createKeretaQuery({
       id: generateNanoId(),
@@ -47,10 +47,22 @@ export const findKeretaController = async (req: Request, res: Response) => {
   }
 };
 
+export const findManyKeretaController = async (_: Request, res: Response) => {
+  try {
+    const keretas = await findManyKeretaQuery();
+
+    res.status(200).json({ message: "Kereta found!", data: keretas });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ message: "Something went wrong!", data: null });
+  }
+};
+
 export const updateKeretaController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { namaKereta, deskripsi, kelas }: Prisma.KeretaUpdateInput = req.body;
+    const { namaKereta, deskripsi, kelas } = req.body;
 
     const kereta = await findKeretaQuery({ id });
 
@@ -65,7 +77,7 @@ export const updateKeretaController = async (req: Request, res: Response) => {
         namaKereta,
         deskripsi,
         kelas,
-      }
+      },
     );
 
     res.status(200).json({ message: "Kereta updated!", data: updatedKereta });

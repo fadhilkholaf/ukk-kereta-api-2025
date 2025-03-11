@@ -4,6 +4,7 @@ import {
   createKeretaController,
   deleteKeretaController,
   findKeretaController,
+  findManyKeretaController,
   updateKeretaController,
 } from "@/controllers/kereta";
 import { auth } from "@/middleware/auth";
@@ -12,19 +13,13 @@ import { createKeretaSchema, updateKeretaSchema } from "@/schema/kereta";
 
 const r = express();
 
-r.post(
-  "/create",
-  auth("petugas"),
-  validate(createKeretaSchema),
-  createKeretaController
-);
-r.get("/:id", auth("petugas"), findKeretaController);
-r.patch(
-  "/:id",
-  auth("petugas"),
-  validate(updateKeretaSchema),
-  updateKeretaController
-);
-r.delete("/:id", auth("petugas"), deleteKeretaController);
+r.use(auth("private"));
+r.get("/", findManyKeretaController);
+
+r.use(auth("petugas"));
+r.post("/create", validate(createKeretaSchema), createKeretaController);
+r.get("/:id", findKeretaController);
+r.patch("/:id", validate(updateKeretaSchema), updateKeretaController);
+r.delete("/:id", deleteKeretaController);
 
 export default r;

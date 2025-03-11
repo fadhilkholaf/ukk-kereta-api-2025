@@ -10,9 +10,13 @@ export const findUserQuery = async (where: Prisma.UserWhereUniqueInput) => {
   return await prisma.user.findUnique({ where });
 };
 
+export const findManyUserQuery = async () => {
+  return await prisma.user.findMany();
+};
+
 export const updateUserQuery = async (
   where: Prisma.UserWhereUniqueInput,
-  data: Prisma.UserUpdateInput
+  data: Prisma.UserUpdateInput,
 ) => {
   return await prisma.user.update({ where, data });
 };

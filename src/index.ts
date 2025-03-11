@@ -3,6 +3,9 @@ import cookieParser from "cookie-parser";
 
 import authRoute from "@/routes/auth";
 import keretaRoute from "@/routes/kereta";
+import userRoute from "@/routes/user";
+import gerbongRoute from "@/routes/gerbong";
+import kursiRoute from "@/routes/kursi";
 
 import "dotenv/config";
 
@@ -21,6 +24,9 @@ r.get("/", (_: Request, res: Response) => {
 
 r.use("/auth", authRoute);
 r.use("/kereta", keretaRoute);
+r.use("/user", userRoute);
+r.use("/gerbong", gerbongRoute);
+r.use("/kursi", kursiRoute);
 
 r.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
