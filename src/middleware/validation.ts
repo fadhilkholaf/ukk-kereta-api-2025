@@ -11,8 +11,7 @@ export const validate = (schema: z.ZodObject<any, any>) => {
         res.status(400).json({
           messages: "Bad request!",
           data: error.issues.map((e) => ({
-            paths: e.path.join(", "),
-            message: e.message,
+            message: `On paths ${e.path.join(", ")}. ${e.message}`,
           })),
         });
       } else {

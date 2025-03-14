@@ -114,9 +114,9 @@ export const deleteKursiController = async (req: Request, res: Response) => {
       return;
     }
 
-    const deletedKursi = await deleteKursiQuery({ id });
+    await deleteKursiQuery({ id });
 
-    res.status(200).json({ message: "Kursi deleted!", data: deletedKursi });
+    res.status(200).json({ message: "Kursi deleted!", data: existingKursi });
   } catch (error) {
     console.log(error);
 

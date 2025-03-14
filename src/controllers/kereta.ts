@@ -92,16 +92,16 @@ export const deleteKeretaController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const kereta = await findKeretaQuery({ id });
+    const exisitingKereta = await findKeretaQuery({ id });
 
-    if (!kereta) {
+    if (!exisitingKereta) {
       res.status(404).json({ message: "Kereta not found!", data: null });
       return;
     }
 
-    const deletedKereta = await deleteKeretaQuery({ id });
+    await deleteKeretaQuery({ id });
 
-    res.status(200).json({ message: "Kereta deleted!", data: deletedKereta });
+    res.status(200).json({ message: "Kereta deleted!", data: exisitingKereta });
   } catch (error) {
     console.log(error);
 

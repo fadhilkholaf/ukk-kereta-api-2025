@@ -109,16 +109,18 @@ export const deleteGerbongController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const gerbong = await findGerbongQuery({ id });
+    const existingGerbong = await findGerbongQuery({ id });
 
-    if (!gerbong) {
+    if (!existingGerbong) {
       res.status(404).json({ message: "Gerbong not found!", data: null });
       return;
     }
 
-    const deletedGerbong = await deleteGerbongQuery({ id });
+    await deleteGerbongQuery({ id });
 
-    res.status(200).json({ message: "Gerbong deleted!", data: deletedGerbong });
+    res
+      .status(200)
+      .json({ message: "Gerbong deleted!", data: existingGerbong });
   } catch (error) {
     console.log(error);
 

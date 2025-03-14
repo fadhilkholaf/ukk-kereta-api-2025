@@ -33,7 +33,7 @@ export const signUpController = async (req: Request, res: Response) => {
 
     res
       .cookie("token", token, { httpOnly: true })
-      .status(201)
+      .status(200)
       .json({
         message: "Sign up success!",
         data: { user: createdUser, token },

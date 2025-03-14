@@ -1,5 +1,6 @@
-import express, { Request, Response } from "express";
+import cors from "cors";
 import cookieParser from "cookie-parser";
+import express, { Request, Response } from "express";
 
 import authRoute from "@/routes/auth";
 import keretaRoute from "@/routes/kereta";
@@ -7,12 +8,15 @@ import userRoute from "@/routes/user";
 import gerbongRoute from "@/routes/gerbong";
 import kursiRoute from "@/routes/kursi";
 import jadwalRoute from "@/routes/jadwal";
+import petugasRoute from "@/routes/petugas";
+import pelangganRoute from "@/routes/pelanggan";
 
 import "dotenv/config";
 
 const PORT = process.env.PORT || 8080;
 const r = express();
 
+r.use(cors());
 r.use(express.json());
 r.use(express.urlencoded({ extended: true }));
 r.use(cookieParser());
@@ -29,7 +33,11 @@ r.use("/user", userRoute);
 r.use("/gerbong", gerbongRoute);
 r.use("/kursi", kursiRoute);
 r.use("/jadwal", jadwalRoute);
+r.use("/petugas", petugasRoute);
+r.use("/pelanggan", pelangganRoute);
 
 r.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export default r;
