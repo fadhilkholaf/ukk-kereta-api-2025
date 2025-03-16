@@ -108,12 +108,12 @@ export const updatePelangganController = async (
     const { id } = req.params;
 
     const existingPelanggan = await findManyPelangganQuery({
-      OR: [{ nik }, { id }],
+      OR: [{ id }, { nik }],
     });
 
     if (
       !existingPelanggan.length ||
-      !existingPelanggan.some((pelanggan) => pelanggan.id === id)
+      !existingPelanggan.some((p) => p.id === id)
     ) {
       res.status(404).json({
         message: "Pelanggan not found!",

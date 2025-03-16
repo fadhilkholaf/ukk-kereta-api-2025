@@ -10,8 +10,18 @@ export const findKursiQuery = async (where: Prisma.KursiWhereUniqueInput) => {
   return await prisma.kursi.findUnique({ where });
 };
 
-export const findManyKursiQuery = async () => {
-  return await prisma.kursi.findMany();
+export const findManyKursiQuery = async (
+  where?: Prisma.KursiWhereInput,
+  include?: Prisma.KursiInclude,
+) => {
+  return await prisma.kursi.findMany({ where, include });
+};
+
+export const findManyKursiIdQuery = async (where: Prisma.KursiWhereInput) => {
+  return await prisma.kursi.groupBy({
+    by: "id",
+    where,
+  });
 };
 
 export const updateKursiQuery = async (

@@ -21,10 +21,12 @@ export const createUserController = async (req: Request, res: Response) => {
       return;
     }
 
+    const hashedPassword = hash(password);
+
     const createdUser = await createUserQuery({
       id: generateNanoId(),
       username,
-      password,
+      password: hashedPassword,
       role,
     });
 
@@ -72,20 +74,28 @@ export const updateUserController = async (req: Request, res: Response) => {
     const { username, password, role } = req.body;
     const { id } = req.params;
 
-    const existingUser = await findUserQuery({ id });
+    const existingUser = await findManyUserQuery({
+      OR: [{ id }, { username }],
+    });
 
-    if (!existingUser) {
+    if (!existingUser.length || !existingUser.some((u) => u.id === id)) {
       res.status(404).json({ message: "User not found!", data: null });
       return;
     }
 
-    const hashedPassword = hash(password);
+    if (existingUser.length > 1) {
+      res.status(409).json({
+        message: "User with that username already exists!",
+        data: null,
+      });
+      return;
+    }
 
     const updatedUser = await updateUserQuery(
       { id },
       {
         username,
-        password: hashedPassword || undefined,
+        password: password ? hash(password) : undefined,
         role,
       },
     );

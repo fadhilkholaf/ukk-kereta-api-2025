@@ -16,3 +16,11 @@ export const updateKeretaSchema = z
     kelas: z.nativeEnum(Kelas).optional(),
   })
   .strict();
+
+export const filterKeretaSchema = z
+  .object({
+    asalKeberangkatan: z.string().min(1),
+    tujuanKeberangkatan: z.string().min(1),
+    tanggalKeberangkatan: z.date({ coerce: true }),
+  })
+  .strict();

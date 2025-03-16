@@ -8,6 +8,7 @@ import {
   updateKeretaQuery,
 } from "@/database/query/kereta";
 import { generateNanoId } from "@/lib/nanoid";
+import { Prisma } from "@prisma/client";
 
 export const createKeretaController = async (req: Request, res: Response) => {
   try {
@@ -52,6 +53,70 @@ export const findManyKeretaController = async (_: Request, res: Response) => {
     const keretas = await findManyKeretaQuery();
 
     res.status(200).json({ message: "Kereta found!", data: keretas });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({ message: "Something went wrong!", data: null });
+  }
+};
+
+export const findManyFilteredKeretaController = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { asalKeberangkatan, tujuanKeberangkatan, tanggalKeberangkatan } =
+      req.body;
+
+    const keretas = (await findManyKeretaQuery(
+      {
+        AND: [
+          {
+            jadwal: { some: { asalKeberangkatan } },
+          },
+          {
+            jadwal: { some: { tujuanKeberangkatan } },
+          },
+          {
+            jadwal: {
+              some: {
+                tanggalKeberangkatan: {
+                  gte: new Date(tanggalKeberangkatan),
+                },
+              },
+            },
+          },
+        ],
+      },
+      { jadwal: true },
+    )) as Prisma.KeretaGetPayload<{ include: { jadwal: true } }>[];
+
+    const formatedKereta = keretas.map((k) => {
+      const thisTanggalKeberangkatan = k.jadwal.find(
+        (j) => j.asalKeberangkatan === asalKeberangkatan,
+      );
+
+      const thisTanggalKedatangan = k.jadwal.find(
+        (j) => j.tujuanKeberangkatan === tujuanKeberangkatan,
+      );
+
+      const sortedJadwal = k.jadwal.sort(
+        (a, b) =>
+          a.tanggalKeberangkatan.getTime() - b.tanggalKeberangkatan.getTime(),
+      );
+
+      const filteredJadwal = sortedJadwal.filter(
+        (j) =>
+          j.tanggalKeberangkatan.getTime() >=
+            thisTanggalKeberangkatan!.tanggalKeberangkatan.getTime() &&
+          j.tanggalKedatangan.getTime() <=
+            thisTanggalKedatangan!.tanggalKedatangan.getTime(),
+      );
+
+      return { ...k, jadwal: filteredJadwal };
+    });
+
+    res.status(200).json({ message: "Kereta found!", data: formatedKereta });
   } catch (error) {
     console.log(error);
 

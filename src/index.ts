@@ -10,6 +10,7 @@ import kursiRoute from "@/routes/kursi";
 import jadwalRoute from "@/routes/jadwal";
 import petugasRoute from "@/routes/petugas";
 import pelangganRoute from "@/routes/pelanggan";
+import pembelianTiketRoute from "@/routes/pembelian-tiket";
 
 import "dotenv/config";
 
@@ -35,6 +36,7 @@ r.use("/kursi", kursiRoute);
 r.use("/jadwal", jadwalRoute);
 r.use("/petugas", petugasRoute);
 r.use("/pelanggan", pelangganRoute);
+r.use("/pembelian-tiket", pembelianTiketRoute);
 
 r.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

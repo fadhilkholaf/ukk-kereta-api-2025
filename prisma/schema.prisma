@@ -77,13 +77,13 @@ model Gerbong {
 }
 
 model Kursi {
-  id                   String                 @id
+  id                   String                @id
   noKursi              Int
   gerbongId            String
-  gerbong              Gerbong                @relation(fields: [gerbongId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  createdAt            DateTime               @default(now())
-  updatedAt            DateTime               @updatedAt
-  detailPembelianTiket DetailPembelianTiket[]
+  gerbong              Gerbong               @relation(fields: [gerbongId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  detailPembelianTiket DetailPembelianTiket?
 }
 
 model Jadwal {
@@ -117,7 +117,7 @@ model DetailPembelianTiket {
   namaPenumpang    String
   pembelianTiketId String
   pembelianTiket   PembelianTiket @relation(fields: [pembelianTiketId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  kursiId          String
+  kursiId          String         @unique
   kursi            Kursi          @relation(fields: [kursiId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt

@@ -10,8 +10,11 @@ export const findKeretaQuery = async (where: Prisma.KeretaWhereUniqueInput) => {
   return await prisma.kereta.findUnique({ where });
 };
 
-export const findManyKeretaQuery = async () => {
-  return await prisma.kereta.findMany();
+export const findManyKeretaQuery = async (
+  where?: Prisma.KeretaWhereInput,
+  include?: Prisma.KeretaInclude,
+) => {
+  return await prisma.kereta.findMany({ where, include });
 };
 
 export const updateKeretaQuery = async (

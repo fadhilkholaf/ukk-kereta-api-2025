@@ -54,7 +54,7 @@ export const findKursiController = async (req: Request, res: Response) => {
   }
 };
 
-export const findManyKursiController = async (req: Request, res: Response) => {
+export const findManyKursiController = async (_: Request, res: Response) => {
   try {
     const kursis = await findManyKursiQuery();
 

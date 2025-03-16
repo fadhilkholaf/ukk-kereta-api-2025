@@ -10,8 +10,14 @@ export const findJadwalQuery = async (where: Prisma.JadwalWhereUniqueInput) => {
   return await prisma.jadwal.findUnique({ where });
 };
 
-export const findManyJadwalQuery = async () => {
-  return await prisma.jadwal.findMany();
+export const findManyJadwalQuery = async (
+  where?: Prisma.JadwalWhereInput,
+  include?: Prisma.JadwalInclude,
+) => {
+  return await prisma.jadwal.findMany({
+    where,
+    include,
+  });
 };
 
 export const updateJadwalQuery = async (
