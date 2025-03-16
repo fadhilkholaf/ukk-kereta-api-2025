@@ -1,6 +1,7 @@
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import express, { Request, Response } from "express";
+import helmet from "helmet";
 
 import authRoute from "@/routes/auth";
 import keretaRoute from "@/routes/kereta";
@@ -17,10 +18,20 @@ import "dotenv/config";
 const PORT = process.env.PORT || 8080;
 const r = express();
 
-r.use(cors());
+r.set("trust proxy", 1);
+r.disable("x-powered-by");
+r.use(helmet());
+r.use(
+  cors({
+    origin: true,
+    credentials: true,
+    exposedHeaders: ["set-cookie"],
+  }),
+);
+
+r.use(cookieParser());
 r.use(express.json());
 r.use(express.urlencoded({ extended: true }));
-r.use(cookieParser());
 
 r.get("/", (_: Request, res: Response) => {
   res
@@ -38,8 +49,10 @@ r.use("/petugas", petugasRoute);
 r.use("/pelanggan", pelangganRoute);
 r.use("/pembelian-tiket", pembelianTiketRoute);
 
-r.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  r.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
 
 export default r;

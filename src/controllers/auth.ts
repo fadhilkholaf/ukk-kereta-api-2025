@@ -32,7 +32,11 @@ export const signUpController = async (req: Request, res: Response) => {
     );
 
     res
-      .cookie("token", token, { httpOnly: true })
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
       .status(200)
       .json({
         message: "Sign up success!",
@@ -73,7 +77,11 @@ export const signInController = async (req: Request, res: Response) => {
 
     res
       .status(200)
-      .cookie("token", token, { httpOnly: true })
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
       .json({
         message: "Sign in success!",
         data: { user: existingUser, token },
