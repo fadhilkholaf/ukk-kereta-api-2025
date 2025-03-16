@@ -15,3 +15,10 @@ export const createPembelianTiketSchema = z
       .min(1),
   })
   .strict();
+
+export const findManyPembelianTiketHistorySchema = z
+  .object({
+    startDate: z.date({ coerce: true }).optional(),
+    endDate: z.date({ coerce: true }).optional(),
+  })
+  .strict();

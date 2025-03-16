@@ -10,12 +10,16 @@ export const createPembelianTiketQuery = async (
 
 export const findPembelianTiketQuery = async (
   where: Prisma.PembelianTiketWhereUniqueInput,
+  include?: Prisma.PembelianTiketInclude,
 ) => {
-  return await prisma.pembelianTiket.findUnique({ where });
+  return await prisma.pembelianTiket.findUnique({ where, include });
 };
 
-export const findManyPembelianTiketQuery = async () => {
-  return await prisma.pembelianTiket.findMany();
+export const findManyPembelianTiketQuery = async (
+  where?: Prisma.PembelianTiketWhereInput,
+  include?: Prisma.PembelianTiketInclude,
+) => {
+  return await prisma.pembelianTiket.findMany({ where, include });
 };
 
 export const updatePembelianTiketQuery = async (
