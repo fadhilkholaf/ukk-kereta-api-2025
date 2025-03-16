@@ -18,12 +18,12 @@ import { rupiah } from "@/utils/rupiah";
 
 GlobalFonts.registerFromPath(
   `${process.cwd()}/src/fonts/GeistMono-Regular.ttf`,
-  "Geist Mono"
+  "Geist Mono",
 );
 
 export const createPembelianTiketController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const {
@@ -41,7 +41,7 @@ export const createPembelianTiketController = async (
     } = req.body;
 
     const isDuplicatedPenumpang = detailPembelianTiket.some(
-      (d, i) => detailPembelianTiket.map((m) => m.nik).indexOf(d.nik) !== i
+      (d, i) => detailPembelianTiket.map((m) => m.nik).indexOf(d.nik) !== i,
     );
 
     if (isDuplicatedPenumpang) {
@@ -109,7 +109,7 @@ export const createPembelianTiketController = async (
 
 export const findManyPembelianTiketHistoryController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const { startDate, endDate } = req.body;
@@ -117,7 +117,7 @@ export const findManyPembelianTiketHistoryController = async (
 
     const decodedToken = verify(
       token,
-      process.env.SECRET_KEY || "yanggelapkaubukanindonesia"
+      process.env.SECRET_KEY || "yanggelapkaubukanindonesia",
     ) as unknown as AuthToken;
 
     const pembelianTiketHistory = await findManyPembelianTiketQuery({
@@ -156,7 +156,7 @@ export const findManyPembelianTiketHistoryController = async (
 
 export const findPembelianTiketPemasukanController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const { startDate, endDate } = req.body;
@@ -172,12 +172,12 @@ export const findPembelianTiketPemasukanController = async (
           },
         ],
       },
-      { jadwal: true }
+      { jadwal: true },
     )) as Prisma.PembelianTiketGetPayload<{ include: { jadwal: true } }>[];
 
     const totalPemasukan = pembelianTiket.reduce(
       (a, b) => a + b.jadwal.harga,
-      0
+      0,
     );
 
     res.status(200).json({
@@ -196,7 +196,7 @@ export const findPembelianTiketPemasukanController = async (
 
 export const findPembelianTiketNotaController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const { id } = req.params;
@@ -211,7 +211,7 @@ export const findPembelianTiketNotaController = async (
         detailPembelianTiket: {
           include: { kursi: { include: { gerbong: true } } },
         },
-      }
+      },
     )) as Prisma.PembelianTiketGetPayload<{
       include: {
         pelanggan: true;
