@@ -21,7 +21,7 @@ r.post(
   validate(createPembelianTiketSchema),
   createPembelianTiketController,
 );
-r.get(
+r.post(
   "/history",
   validate(findManyPembelianTiketHistorySchema),
   findManyPembelianTiketHistoryController,
@@ -29,7 +29,7 @@ r.get(
 r.get("/nota/:id", findPembelianTiketNotaController);
 
 r.use(auth("petugas"));
-r.get(
+r.post(
   "/pemasukan",
   validate(findManyPembelianTiketHistorySchema),
   findPembelianTiketPemasukanController,
