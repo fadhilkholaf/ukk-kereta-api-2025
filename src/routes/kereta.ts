@@ -27,7 +27,7 @@ r.get(
 );
 
 r.use(auth("petugas"));
-r.post("/create", validate(createKeretaSchema), createKeretaController);
+r.post("/", validate(createKeretaSchema), createKeretaController);
 r.get("/:id", findKeretaController);
 r.patch("/:id", validate(updateKeretaSchema), updateKeretaController);
 r.delete("/:id", deleteKeretaController);

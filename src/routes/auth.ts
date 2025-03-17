@@ -13,6 +13,8 @@ const r = express();
 
 r.post("/signup", validate(signUpSchema), signUpController);
 r.post("/signin", validate(signInSchema), signInController);
-r.post("/signout", auth("private"), signOutController);
+
+auth("private");
+r.post("/signout", signOutController);
 
 export default r;
