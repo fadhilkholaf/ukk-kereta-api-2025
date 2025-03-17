@@ -6,7 +6,7 @@
     "dev": "nodemon src/index.ts",
     "build": "rimraf dist && tspc",
     "start": "node dist/index.js",
-    "postinstall": "prisma migrate dev",
+    "postinstall": "prisma generate",
     "format": "prettier --write .",
     "deploy:prod": "pnpm format && pnpm build && vercel build --prod && vercel deploy --prod"
   },
