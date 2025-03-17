@@ -32,6 +32,7 @@ r.use(
 r.use(cookieParser());
 r.use(express.json());
 r.use(express.urlencoded({ extended: true }));
+r.use(express.static("public"));
 
 r.get("/", (_: Request, res: Response) => {
   res
