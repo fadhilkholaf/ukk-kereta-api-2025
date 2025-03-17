@@ -172,13 +172,14 @@ export const findPembelianTiketPemasukanController = async (
           },
         ],
       },
-      { jadwal: true },
-    )) as Prisma.PembelianTiketGetPayload<{ include: { jadwal: true } }>[];
+      { jadwal: true, detailPembelianTiket: true },
+    )) as Prisma.PembelianTiketGetPayload<{
+      include: { jadwal: true; detailPembelianTiket: true };
+    }>[];
 
-    const totalPemasukan = pembelianTiket.reduce(
-      (a, b) => a + b.jadwal.harga,
-      0,
-    );
+    const totalPemasukan = pembelianTiket
+      .map((d) => d.jadwal.harga * d.detailPembelianTiket.length)
+      .reduce((a, b) => a + b, 0);
 
     res.status(200).json({
       message: "Found pembelian tiket history!",
